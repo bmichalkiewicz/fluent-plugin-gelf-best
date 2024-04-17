@@ -1,4 +1,6 @@
-require 'fluent/formatter'
+require "fluent/plugin/formatter"
+require "fluent/plugin/gelf_plugin_util"
+require "yajl"
 
 module Fluent
   module TextFormatter
@@ -10,8 +12,7 @@ module Fluent
 
       Plugin.register_formatter("gelf", self)
 
-      require 'fluent/gelf_util'
-      include GelfUtil
+      include Fluent::GelfPluginUtil
 
       config_param :use_record_host, :bool, :default => true
       config_param :add_msec_time, :bool, :default => false
@@ -32,8 +33,8 @@ module Fluent
             }
           )
 
-          make_json(gelfentry,{})
-      
+          Yajl::Encoder.encode(make_gelfentry)
+
         rescue Exception => e
           log.error sprintf(
             'Error trying to serialize %s: %s',

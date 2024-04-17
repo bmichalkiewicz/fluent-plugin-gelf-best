@@ -1,16 +1,12 @@
+require "fluent/plugin/output"
+require "fluent/plugin/gelf_plugin_util"
+
 module Fluent
+  module Plugin
+    class GelfOutput < Fluent::Plugin::Output
+    Fluent::Plugin.register_output('gelf', self)
 
-  class GELFOutput < BufferedOutput
-
-    unless method_defined?(:log)
-      define_method('log') { $log }
-    end
-
-    Plugin.register_output("gelf", self)
-
-    require 'gelf'
-    require 'fluent/gelf_util'
-    include GelfUtil
+    include Fluent::GelfPluginUtil
 
     config_param :use_record_host, :bool, :default => false
     config_param :add_msec_time, :bool, :default => false
@@ -20,21 +16,39 @@ module Fluent
     config_param :tls, :bool, :default => false
     config_param :tls_options, :hash, :default => {}
 
-    def initialize
-      super
+    define_method('log') {$log} unless method_defined?(:log)
+
+    DEFAULT_BUFFER_TYPE = 'memory'.freeze
+    DEFAULT_TIMEKEY = 5
+    DEFAULT_TIMEKEY_WAIT = 0
+    MAX_PAYLOAD_SIZE = 1000000 # bytes
+
+    config_section :buffer do
+      config_set_default :@type, DEFAULT_BUFFER_TYPE
+      config_set_default :chunk_keys, ['time']
+      config_set_default :timekey, DEFAULT_TIMEKEY
+      config_set_default :timekey_wait, DEFAULT_TIMEKEY_WAIT
+    end
+
+    def multi_workers_ready?
+      true
+    end
+
+    def formatted_to_msgpack_binary
+      true
     end
 
     def configure(conf)
-      super(conf)
+      super
 
       # a destination hostname or IP address must be provided
-      raise ConfigError, "'host' parameter (hostname or address of Graylog2 server) is required" unless conf.has_key?('host')
+      raise Fluent::ConfigError.new("'host' parameter (hostname or address of Graylog2 server) is required") unless conf.has_key?('host')
 
       # choose protocol to pass to gelf-rb Notifier constructor
       # (@protocol is used instead of conf['protocol'] to leverage config_param default)
       if @protocol == 'udp' then @proto = GELF::Protocol::UDP
       elsif @protocol == 'tcp' then @proto = GELF::Protocol::TCP
-      else raise ConfigError, "'protocol' parameter should be either 'udp' (default) or 'tcp'"
+      else raise Fluent::ConfigError.new("'protocol' parameter should be either 'udp' (default) or 'tcp'")
       end
     end
 
@@ -97,12 +111,5 @@ module Fluent
 
       end
     end
-
-    def formatted_to_msgpack_binary
-      true
-    end
   end
-
 end
-
-# vim: sw=2 ts=2 et

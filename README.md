@@ -1,13 +1,24 @@
 # Fluentd GELF output and formatter plugins
-This is a fork of the fluent-plugin-gelf (https://github.com/emsearcy/fluent-plugin-gelf) created in order to publish a gem with the changes contained in pull request #34.  The original pull request #34 will not be used, due to some problems discovered, and will be replaced by three smaller PRs which will implement the same change set, albeit in smaller chunks.
+This is a fork of the fluent-plugin-gelf-best (https://github.com/hotschedules/fluent-plugin-gelf-hs)
 
 ## Overview
-Fluentd GELF output and formatter plugins.
+A Fluentd output plugin that sends logs to Graylog2
+
+## Prerequisites
+Fluentd >= v1.0
 
 ## Installation
-```bash
-gem install fluent-plugin-gelf-hs
-```
+
+Add the plugin to your fluentd agent:
+
+`fluent-gem install fluent-plugin-gelf-best`
+
+If you are using td-agent:
+
+`td-agent-gem install fluent-plugin-gelf-best`
+
+For more info, review [Fluentd's official documentation](https://docs.fluentd.org/deployment/plugin-management).
+
 
 ## Output plugin configuration
 ```
@@ -30,3 +41,13 @@ gem install fluent-plugin-gelf-hs
   [ fluent file output plugin configuration ]
 </match>
 ```
+
+## License
+
+fluent-plugin-gelf-best is licensed under the [Apache 2.0](http://apache.org/licenses/LICENSE-2.0.txt) License.
+
+## Copyright
+
+* Copyright(c) 2024 - Bartosz Michałkiewicz
+* License
+  * Apache License, Version 2.0
