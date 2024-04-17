@@ -43,7 +43,6 @@ module Fluent
           )
         end
       end
-
     end
   end
 end

@@ -86,7 +86,6 @@ module Fluent
       # I realize the nulls are will be treated as unset keys, but it does
       # tend to make for larger files and data transmissions.
       return gelfentry.delete_if{ |k,v| v.nil? }
-
     end
   end
 end
