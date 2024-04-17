@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class GELFFormatterTest < Test::Unit::TestCase
+class GelfFormatterTest < Test::Unit::TestCase
   def setup
     Fluent::Test.setup
   end
@@ -9,7 +9,7 @@ class GELFFormatterTest < Test::Unit::TestCase
   ]
 
   def create_driver(conf = CONF)
-    Fluent::Test::FormatterTestDriver.new(Fluent::TextFormatter::GELFFormatter).configure(conf)
+    Fluent::Test::Driver::Formatter.new(Fluent::Plugin::GelfFormatter).configure(conf)
   end
 
   def test_configure
