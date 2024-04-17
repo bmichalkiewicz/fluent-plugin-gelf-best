@@ -1,11 +1,11 @@
 # Fluentd GELF output and formatter plugins
-This is a fork of the fluent-plugin-gelf-best (https://github.com/hotschedules/fluent-plugin-gelf-hs)
+This is a fork of the fluent-plugin-gelf-hs (https://github.com/hotschedules/fluent-plugin-gelf-hs), which is no longer maintained.
 
 ## Overview
-A Fluentd output plugin that sends logs to Graylog2
+A Fluentd output plugin that sends logs to Graylog2.
 
 ## Prerequisites
-Fluentd >= v1.0
+Fluentd version 1.0 or higher.
 
 ## Installation
 
