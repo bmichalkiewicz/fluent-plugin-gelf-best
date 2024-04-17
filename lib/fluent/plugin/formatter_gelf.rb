@@ -4,7 +4,7 @@ require "yajl"
 
 module Fluent
   module TextFormatter
-    class GELFFormatter < Formatter
+    class GelfFormatter < Formatter
 
       unless method_defined?(:log)
         define_method('log') { $log }
