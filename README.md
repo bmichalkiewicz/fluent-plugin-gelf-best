@@ -29,6 +29,7 @@ For more info, review [Fluentd's official documentation](https://docs.fluentd.or
   protocol <tcp or udp (default)>
   tls <true or false (default)>
   tls_options <{} (default)> for options see https://github.com/graylog-labs/gelf-rb/blob/72916932b789f7a6768c3cdd6ab69a3c942dbcef/lib/gelf/transport/tcp_tls.rb#L7-L12
+  max_bytes <maximum message size (3200 default)>
   [ fluent buffered output plugin configuration ]
 </match>
 ```
