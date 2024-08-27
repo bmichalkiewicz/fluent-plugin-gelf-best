@@ -10,6 +10,7 @@ module Fluent
 
       config_param :use_record_host, :bool, :default => false
       config_param :add_msec_time, :bool, :default => false
+      config_param :max_bytes, :integer, :default => 32000
       config_param :host, :string, :default => nil
       config_param :port, :integer, :default => 12201
       config_param :protocol, :string, :default => 'udp'
@@ -87,7 +88,8 @@ module Fluent
             tag,timestamp,record,
             {
               :use_record_host => @use_record_host,
-              :add_msec_time => @add_msec_time
+              :add_msec_time => @add_msec_time,
+              :max_bytes => @max_bytes
             }
           ).to_msgpack
         rescue Exception => e

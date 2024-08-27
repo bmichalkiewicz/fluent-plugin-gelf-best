@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_runtime_dependency "fluentd", ">=1.0.0"
-  spec.add_runtime_dependency "gelf", ">= 2.0.0"
+  spec.add_runtime_dependency "gelf", ">= 3.1.0"
   spec.add_development_dependency "test-unit"
   spec.add_development_dependency "rake"
 end

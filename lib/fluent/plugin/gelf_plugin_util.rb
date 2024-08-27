@@ -36,6 +36,9 @@ module Fluent
     end
 
     def process_record_entry(k, v, conf, gelfentry)
+      # Truncate values longer than max_bytes
+      v = (v.respond_to?(:bytesize) && v.bytesize > conf[:max_bytes]) ? "#{v.byteslice(0, conf[:max_bytes] - 3)}..." : v
+
       case k
       when 'host', 'hostname'
         return {'host' => (conf[:use_record_host] ? v : gelfentry['_host'] = v)}

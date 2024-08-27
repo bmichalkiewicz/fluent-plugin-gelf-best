@@ -1,4 +1,2 @@
-/certs/*key*
-/certs/*priv*
 **.gem
 **.gem.sha*

@@ -16,6 +16,7 @@ module Fluent
 
       config_param :use_record_host, :bool, :default => true
       config_param :add_msec_time, :bool, :default => false
+      config_param :max_bytes, :integer, :default => 32000
 
       def configure(conf)
         super(conf)
@@ -29,7 +30,8 @@ module Fluent
             tag,time,record,
             {
               :use_record_host => @use_record_host,
-              :add_msec_time => @add_msec_time
+              :add_msec_time => @add_msec_time,
+              :max_bytes => @max_bytes
             }
           )
 
