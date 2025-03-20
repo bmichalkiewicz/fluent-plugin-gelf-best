@@ -15,7 +15,7 @@ module Fluent
     }.freeze
 
     def make_gelfentry(tag, time, record, conf = {})
-      gelfentry = {'_fluentd_tag' => tag, 'timestamp' => calculate_timestamp(time)}
+      gelfentry = {'_fluentd_tag' => tag, 'timestamp' => time}
 
       record.each_pair do |k, v|
         gelfentry.merge!(process_record_entry(k, v, conf, gelfentry))
@@ -26,14 +26,6 @@ module Fluent
     end
 
     private
-
-    def calculate_timestamp(time)
-      if defined?(Fluent::EventTime) && time.is_a?(Fluent::EventTime)
-        time.sec + (time.nsec.to_f / 1_000_000_000).round(3)
-      else
-        time
-      end
-    end
 
     def process_record_entry(k, v, conf, gelfentry)
       # Truncate values longer than max_bytes
