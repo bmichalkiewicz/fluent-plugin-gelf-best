@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    fluent-plugin-gelf-test (1.4.2)
+    fluent-plugin-gelf-best (1.4.0)
       fluentd (>= 1.8.0)
       gelf_redux (>= 4.1.0)
       oj
@@ -63,7 +63,7 @@ PLATFORMS
   x86_64-linux-gnu
 
 DEPENDENCIES
-  fluent-plugin-gelf-test!
+  fluent-plugin-gelf-best!
   rake
   test-unit
 
