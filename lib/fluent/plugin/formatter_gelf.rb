@@ -1,6 +1,6 @@
 require "fluent/plugin/formatter"
 require "fluent/plugin/gelf_plugin_util"
-require "yajl"
+require 'oj'
 
 module Fluent
   module TextFormatter
@@ -35,7 +35,7 @@ module Fluent
             }
           )
 
-          Yajl::Encoder.encode(make_gelfentry)
+          Oj.dump(gelfentry)
 
         rescue Exception => e
           log.error sprintf(
