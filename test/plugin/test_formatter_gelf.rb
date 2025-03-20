@@ -22,7 +22,7 @@ class GelfFormatterTest < Test::Unit::TestCase
     d = create_driver
     time = Time.now.to_i
     formatted = d.format('tag', time, {"message" => "gelf"})
-    expected = Yajl.dump({"_tag"          => "tag",
+    expected = Oj.dump({"_tag"          => "tag",
                           "timestamp"     => time,
                           "short_message" => "gelf",
                           "version"       => "1.0"}) + "\0"

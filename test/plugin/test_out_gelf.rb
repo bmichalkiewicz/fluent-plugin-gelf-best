@@ -106,4 +106,3 @@ class GelfOutputTest < Test::Unit::TestCase
     d.emit({'message' => 'gelf'}, time.to_i)
     d.run
   end
-end
