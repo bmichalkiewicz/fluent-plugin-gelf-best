@@ -14,6 +14,7 @@ module Fluent
       config_param :host, :string, :default => nil
       config_param :port, :integer, :default => 12201
       config_param :protocol, :string, :default => 'udp'
+      config_param :udp_transport_type, :string, :default => 'LAN'
       config_param :tls, :bool, :default => false
       config_param :tls_options, :hash, :default => {}
 
@@ -45,11 +46,20 @@ module Fluent
         # a destination hostname or IP address must be provided
         raise Fluent::ConfigError.new("'host' parameter (hostname or address of Graylog2 server) is required") unless conf.has_key?('host')
 
+        # validate udp_transport_type if protocol is udp
+        if @protocol == 'udp'
+          unless %w[WAN LAN].include?(@udp_transport_type)
+            raise Fluent::ConfigError.new("'udp_transport_type' parameter should be either 'WAN' or 'LAN'")
+          end
+        end
+
         # choose protocol to pass to gelf-rb Notifier constructor
-        # (@protocol is used instead of conf['protocol'] to leverage config_param default)
-        if @protocol == 'udp' then @proto = GELF::Protocol::UDP
-        elsif @protocol == 'tcp' then @proto = GELF::Protocol::TCP
-        else raise Fluent::ConfigError.new("'protocol' parameter should be either 'udp' (default) or 'tcp'")
+        if @protocol == 'udp'
+          @proto = GELF::Protocol::UDP
+        elsif @protocol == 'tcp'
+          @proto = GELF::Protocol::TCP
+        else
+          raise Fluent::ConfigError.new("'protocol' parameter should be either 'udp' (default) or 'tcp'")
         end
       end
 
@@ -64,7 +74,7 @@ module Fluent
           options[:tls] = @tls_options
         end
 
-        @conn = GELF::Notifier.new(@host, @port, 'WAN', options)
+        @conn = GELF::Notifier.new(@host, @port, @udp_transport_type, options)
 
         # Errors are not coming from Ruby so we use direct mapping
         @conn.level_mapping = 'direct'
