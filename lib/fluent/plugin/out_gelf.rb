@@ -14,7 +14,7 @@ module Fluent
       config_param :host, :string, :default => nil
       config_param :port, :integer, :default => 12201
       config_param :protocol, :string, :default => 'udp'
-      config_param :udp_transport_type, :string, :default => 'LAN'
+      config_param :udp_transport_type, :string, :default => 'WAN'
       config_param :tls, :bool, :default => false
       config_param :tls_options, :hash, :default => {}
 
